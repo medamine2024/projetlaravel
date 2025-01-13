@@ -176,7 +176,7 @@
                             <div class="mb-3 mx-3"><input class="form-control form-control-sm"
                                     id="statusUpdateInput" placeholder="Update your status"></div>
                             <ul class="nav d-flex flex-column mb-2 pb-1">
-                                <li class="nav-item"><a class="nav-link px-3" href="#!"><span
+                                <li class="nav-item"><a class="nav-link px-3" href="/admin/profile"><span
                                             class="me-2 text-900" data-feather="user"></span>Profile</a>
                                 </li>
                                 <li class="nav-item"><a class="nav-link px-3" href="#!"><span

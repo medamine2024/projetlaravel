@@ -6,8 +6,12 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    //afficher le dashboard de l'admin
-    public function dashboard(){
-        return view('admin.dashboard');
-    }
+
+        public function dashboard(){
+            return view('admin.dashboard');
+        }
+        public function profile(){
+            return view('admin.profile');
+        }
+
 }

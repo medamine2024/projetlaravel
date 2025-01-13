@@ -55,12 +55,12 @@
     <main class="main" id="top">
         <div class="container-fluid px-0">
 
-          <!-- Include the sidebar -->
-          @Include('includes.admin.sidebar')
-          <!-- Include the nav -->
-          @Include('includes.admin.nav') 
+            <!-- Include the sidebar -->
+            @Include('includes.admin.sidebar')
+            <!-- Include the nav -->
+            @Include('includes.admin.nav')
 
-          
+
             <div class="content">
                 <div class="pb-5">
                     <a href="#" class="btn btn-primary"
@@ -74,22 +74,25 @@
                                 <th scope="col">PRICE</th>
                                 <th scope="col">QTE</th>
                                 <th scope="col">PHOTO</th>
+                                <th scope="col">CATEGORY</th>
                                 <th scope="col">ACTION</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($products as $index=>$p)
+                            @foreach ($products as $index => $p)
                                 <tr>
-                                    <td>{{$index +1}} </td>
-                                    <td>{{$p->name}} </td>
-                                    <td>{{$p->description}} </td>
-                                    <td>{{$p->price}} </td>
-                                    <td>{{$p->qte}} </td>
+                                    <td>{{ $index + 1 }} </td>
+                                    <td>{{ $p->name }} </td>
+                                    <td>{{ $p->description }} </td>
+                                    <td>{{ $p->price }} </td>
+                                    <td>{{ $p->qte }} </td>
                                     <td>
-                                        <img src="{{asset('uploads')}}/{{$p->photo}}" width="50" alt="">
-                                         </td>
+                                        <img src="{{ asset('uploads') }}/{{ $p->photo }}" width="50"
+                                            alt="">
+                                    </td>
+                                    <td>{{ $p->category->name }} </td>
                                     <td>
-                                    <a data-bs-toggle="modal"data-bs-target="#editProduct{{ $p->id }}"
+                                        <a data-bs-toggle="modal"data-bs-target="#editProduct{{ $p->id }}"
                                             class="btn btn-success">Edit</a>
                                         <a href="{{ url('/admin/products/' . $p->id . '/delete') }}"
                                             class="btn btn-danger">Delete</a>
@@ -97,10 +100,10 @@
 
 
 
-                                    
+
                                 </tr>
                             @endforeach
-                        </tbody>    
+                        </tbody>
                     </table>
                 </div>
                 <footer class="footer">
@@ -126,38 +129,51 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
-                        <form method="post" action="{{ url('/admin/products/store') }}" id="addCategoryForm" enctype="multipart/form-data">
+                        <form method="post" action="{{ url('/admin/products/store') }}" id="addCategoryForm"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="modal-body">
                                 <div class="mb-3">
+                                    <label for="categoryName" class="form-label">Category Name</label>
+                                    <select name="category_id" class="form-select" id="categoryName" required>
+                                        <option value="">Select Category</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    <div class="invalid-feedback" id="categoryNameError"></div>
+                                </div>
+                                <div class="mb-3">
                                     <label for="categoryName" class="form-label">Product Name</label>
                                     <input name="name" type="text" class="form-control" id="categoryName"
-                                        placeholder="Enter category name" required>
+                                        placeholder="Enter product name" required>
                                     <div class="invalid-feedback" id="categoryNameError"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="categoryDescription" class="form-label">Product Description</label>
                                     <textarea name="description" class="form-control" id="categoryDescription" rows="3"
-                                        placeholder="Enter category description" required></textarea>
+                                        placeholder="Enter product description" required></textarea>
                                     <div class="invalid-feedback" id="categoryDescriptionError"></div>
                                 </div>
                                 <div class="mb-3">
-    <label for="categoryPrice" class="form-label">Product Price</label>
-    <input type="number" name="price" class="form-control" id="categoryPrice" placeholder="Enter Product Price" required>
-    <div class="invalid-feedback" id="ProductpriceError"></div>
-</div>
+                                    <label for="categoryPrice" class="form-label">Product Price</label>
+                                    <input type="number" name="price" class="form-control" id="categoryPrice"
+                                        placeholder="Enter Product Price" required>
+                                    <div class="invalid-feedback" id="ProductpriceError"></div>
+                                </div>
 
                                 <div class="mb-3">
-    <label for="categoryqte" class="form-label">Product Qte</label>
-    <input type="number" name="qte" class="form-control" id="categoryqte" placeholder="Enter Product Qte" required>
-    <div class="invalid-feedback" id="ProductqteError"></div>
-</div>
+                                    <label for="categoryqte" class="form-label">Product Qte</label>
+                                    <input type="number" name="qte" class="form-control" id="categoryqte"
+                                        placeholder="Enter Product Qte" required>
+                                    <div class="invalid-feedback" id="ProductqteError"></div>
+                                </div>
 
-<div class="mb-3">
-    <label for="categoryphoto" class="form-label">Product Photo</label>
-    <input type="file" name="photo" class="form-control" id="categoryphoto" required>
-    <div class="invalid-feedback" id="ProductphotoError"></div>
-</div>
+                                <div class="mb-3">
+                                    <label for="categoryphoto" class="form-label">Product Photo</label>
+                                    <input type="file" name="photo" class="form-control" id="categoryphoto"
+                                        required>
+                                    <div class="invalid-feedback" id="ProductphotoError"></div>
+                                </div>
 
                             </div>
                             <div class="modal-footer">
@@ -170,79 +186,87 @@
                 </div>
             </div>
 
-         
+
+
+
+
+
+            @foreach ($products as $index => $p)
+            <tr>
+                <td>{{ $index + 1 }} </td>
+                <td>{{ $p->name }} </td>
+                <td>{{ $p->description }} </td>
+                <td>{{ $p->price }} </td>
+                <td>{{ $p->qte }} </td>
+                <td>
+                    <img src="{{ asset('uploads') }}/{{ $p->photo }}" width="50" alt="">
+                </td>
+                <td>{{ $p->category->name }} </td>
+                <td>
+                    <a data-bs-toggle="modal" data-bs-target="#editProduct{{ $p->id }}" class="btn btn-success">Edit</a>
+                    <a href="{{ url('/admin/products/' . $p->id . '/delete') }}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
             
-
-
-
-            @foreach($products as $index=>$p)
-            <!-- Modal -->
-            <div class="modal fade" id="editProduct{{ $p->id }}" tabindex="-1" role="dialog"
-                aria-labelledby="addCategoryModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+            <!-- Edit Product Modal -->
+            <div class="modal fade" id="editProduct{{ $p->id }}" tabindex="-1" aria-labelledby="editProductLabel{{ $p->id }}" aria-hidden="true">
+                <div class="modal-dialog">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addCategoryModalLabel">Modify Product</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <form method="post" action="{{ url('/admin/products/update') }}" id="addCategoryForm" enctype="multipart/form-data">
+                        <form action="{{ url('/admin/products/update') }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            <!-- Remove @method('PUT') -->
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editProductLabel{{ $p->id }}">Edit Product</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
                             <div class="modal-body">
-                                <input type="hidden" name="idproduct" value="{{$p->id }}">
-                            <img src="{{asset('uploads')}}/{{$p->photo}}" width="50" alt="">
-
+                                <input type="hidden" name="idproduct" value="{{ $p->id }}">
                                 <div class="mb-3">
-                                    <label for="categoryName" class="form-label">Product Name</label>
-                                    <input name="name" value="{{$p->name}}" type="text" class="form-control" id="categoryName"
-                                        placeholder="Enter category name" required>
-                                    <div class="invalid-feedback" id="categoryNameError"></div>
+                                    <label for="productName{{ $p->id }}" class="form-label">Product Name</label>
+                                    <input name="name" type="text" class="form-control" id="productName{{ $p->id }}" value="{{ $p->name }}" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="categoryDescription" class="form-label">Product Description</label>
-                                    <textarea name="description" class="form-control" id="categoryDescription" rows="3"
-                                        placeholder="Enter category description" required>{{$p->description}}</textarea>
-                                    <div class="invalid-feedback" id="categoryDescriptionError"></div>
+                                    <label for="productDescription{{ $p->id }}" class="form-label">Product Description</label>
+                                    <textarea name="description" class="form-control" id="productDescription{{ $p->id }}" rows="3" required>{{ $p->description }}</textarea>
                                 </div>
                                 <div class="mb-3">
-    <label for="categoryPrice" class="form-label">Product Price</label>
-    <input type="number" value="{{$p->price}}" name="price" class="form-control" id="categoryPrice" placeholder="Enter Product Price" required>
-    <div class="invalid-feedback" id="ProductpriceError"></div>
-</div>
-
+                                    <label for="productPrice{{ $p->id }}" class="form-label">Product Price</label>
+                                    <input type="number" name="price" class="form-control" id="productPrice{{ $p->id }}" value="{{ $p->price }}" required>
+                                </div>
                                 <div class="mb-3">
-    <label for="categoryqte" class="form-label">Product Qte</label>
-    <input type="number" value="{{$p->qte}}" name="qte" class="form-control" id="categoryqte" placeholder="Enter Product Qte" required>
-    <div class="invalid-feedback" id="ProductqteError"></div>
-</div>
-
-<div class="mb-3">
-    <label for="categoryphoto" class="form-label">Product Photo</label>
-    <input type="file" name="photo" class="form-control" id="categoryphoto" required>
-    <div class="invalid-feedback" id="ProductphotoError"></div>
-</div>
-
+                                    <label for="productQte{{ $p->id }}" class="form-label">Product Qte</label>
+                                    <input type="number" name="qte" class="form-control" id="productQte{{ $p->id }}" value="{{ $p->qte }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productCategory{{ $p->id }}" class="form-label">Category</label>
+                                    <select name="category_id" class="form-select" id="productCategory{{ $p->id }}" required>
+                                        <option value="">Select Category</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}" {{ $category->id == $p->category_id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productPhoto{{ $p->id }}" class="form-label">Product Photo</label>
+                                    <input type="file" name="photo" class="form-control" id="productPhoto{{ $p->id }}">
+                                </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Modify</button>
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
                             </div>
                         </form>
+                        
+
                     </div>
                 </div>
             </div>
-
-
-@endforeach
-
+            @endforeach
 
 
 
 
 
-
-        
 
 
     </main>

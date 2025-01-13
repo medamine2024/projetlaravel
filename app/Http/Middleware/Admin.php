@@ -8,20 +8,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Admin
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
-    */
     public function handle(Request $request, Closure $next): Response
     {
-        // Check if the authenticated user is an admin
-        if (Auth::check() && Auth::user()->is_admin) {
-            return $next($request);
-        } else {
-            // Redirect to home page or return unauthorized response
-            return redirect('/home')->with('error', 'You do not have admin access.');
+        // Redirect unauthenticated users
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('error', 'Please log in to access this page.');
         }
+
+        // Redirect users without admin role
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('login')->with('error', 'You do not have admin access.');
+        }
+
+        return $next($request);
     }
 }
